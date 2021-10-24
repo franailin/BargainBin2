@@ -1,0 +1,19 @@
+{
+  "name": "bargainbin2",
+  "version": "1.0.0",
+  "description": "A webapp for sharing and creating stories.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franailin/BargainBin2.git"
+  },
+  "author": "Frank, Kevin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/franailin/BargainBin2/issues"
+  },
+  "homepage": "https://github.com/franailin/BargainBin2#readme"
+}
