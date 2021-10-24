@@ -4,11 +4,14 @@
 <style>
 /* references:
 https://www.w3schools.com/css/css_navbar_vertical.asp
+css positions
 
 */
 
-.navigator {
-  background: blue;
+nav {
+  background: #352828;
+  color: white;
+
   position: fixed;
   top: 0px;
   left: 0px;
@@ -16,27 +19,141 @@ https://www.w3schools.com/css/css_navbar_vertical.asp
   height: 100%;
 }
 
-#navigator-ul li {
-  list-style-type: none;  
-  color: white;
+nav * {
+  margin: 0px;
+  padding: 0px;
 
+  font-family: Arial;
+}
+
+#nav-empty-space {
+  height: 20px;
+}
+
+nav section {  
+  /* background: #7d2828; */
+  
+  padding-left: 10px;
+}
+
+nav ul {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+nav li {
+  list-style-type: none;
   display: block;
 }
-#navigator-ul li:hover {
+
+nav li:hover {
+  background: white;
+  color: black;
+}
+
+nav h2 {
+
+}
+
+nav hr {
+  margin: 10px;
+
+  border: none; /* remove browser's style settings */
+  height: 2px;
   background: black;
+}
+
+.nav-button {
+  padding: 5px;
+  margin: 3px;
+  line-height: 0px;
+
+  background: black;
+  color: white;
+}
+.nav-button:hover {
+  background: white;
+  color: black;
+}
+
+nav button {
+  display: inline-block;
+  background-color: black;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  text-align: center;  
+  
+  margin: 2px;
+  padding: 5px;
+  
+  /*transition: all .3s;*/
+
+  cursor: pointer;
+}
+nav button:hover {
+  background-color: white;
+  color: black;
+}
+
+.button-hover {
+
+}
+
+.button-onmousedown {
+
 }
 
 
 </style>
+<script>
+window.onload = function() {
+  styleNavButtons();
+}
+
+function styleNavButtons() {
+  let navBtns = document.querySelectorAll('nav button');
+  navBtns.forEach(button => {
+    button.onmousedown = function() {
+      button.style.backgroundColor = 'gray';
+    }
+    button.onmouseup = function() {
+      button.style.backgroundColor = 'white';
+    }
+  });
+}
+</script>
 <title>HOME</title>
 </head>
 <body>
-<nav class=navigator>
-  <ul id="navigator-ul">
-    <li>Collections</li>
-    <li>Random Stories</li>
-    <li>Top-10 Universes</li>
-  </ul>
+<nav>
+  <div id="nav-empty-space"></div>
+  <section>
+    <h2>Collections</h2>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button><br>
+    <button>See All</button>
+  </section>
+  <hr>
+
+  <section>
+    <h2>Top-10 Stories</h2>
+    <ul>
+      <li>An Adventure to Mars</li>
+      <li>Sex on the Beach</li>
+      <li>Go Bears!</li>
+      <li>69 Is Not A Prime</li>
+    </ul>
+    <button>See All</button>
+  </section>
+  <hr>
+
+  <section>
+    <h2>Today's Pick</h2>
+  </section>
+  <hr>
 </nav>
 </body>
 </html>
