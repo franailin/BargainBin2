@@ -4,8 +4,10 @@
 <style>
 /* references:
 https://www.w3schools.com/css/css_navbar_vertical.asp
+margin vs. padding: https://blog.hubspot.com/website/css-margin-vs-padding
 css positions
-
+css display: https://www.w3schools.com/cssref/pr_class_display.asp
+css transitions
 */
 
 nav {
@@ -20,6 +22,7 @@ nav {
 }
 
 nav * {
+  /* overwrite browser default */
   margin: 0px;
   padding: 0px;
 
@@ -42,7 +45,7 @@ nav ul {
 }
 
 nav li {
-  list-style-type: none;
+  list-style-type: none; /* remove bullet point */
   display: block;
 }
 
@@ -63,26 +66,13 @@ nav hr {
   background: black;
 }
 
-.nav-button {
-  padding: 5px;
-  margin: 3px;
-  line-height: 0px;
-
-  background: black;
-  color: white;
-}
-.nav-button:hover {
-  background: white;
-  color: black;
-}
-
 nav button {
-  display: inline-block;
+  display: inline-block; /* block, but does not start new line */
   background-color: black;
   color: white;
-  border-radius: 4px;
+  border-radius: 4px; /* the round edges */
   border: none;
-  text-align: center;  
+  text-align: center;
   
   margin: 2px;
   padding: 5px;
@@ -91,17 +81,14 @@ nav button {
 
   cursor: pointer;
 }
-nav button:hover {
+
+.button-hover {
   background-color: white;
   color: black;
 }
 
-.button-hover {
-
-}
-
 .button-onmousedown {
-
+  background-color: gray;
 }
 
 
@@ -111,14 +98,54 @@ window.onload = function() {
   styleNavButtons();
 }
 
+// change how nav buttons look when hovering, mousedown, ... on them
+// still not perfect. Need fix
 function styleNavButtons() {
   let navBtns = document.querySelectorAll('nav button');
+  let buttonHeld;
   navBtns.forEach(button => {
+    let isHovering = false;
+    let onOneButton = false;
+
+    button.onmouseover = function() {
+      isHovering = true;
+      onOneButton = true;
+      let buttonClass = button.classList;
+      if (!buttonClass.contains('button-onmousedown')) {
+        buttonClass.add('button-hover');
+      }
+    }
+    button.onmouseout = function() {
+      isHovering = false;
+      onOneButton = false;
+      let buttonClass = button.classList;
+      if (!buttonClass.contains('button-onmousedown')) {
+        buttonClass.remove('button-hover');
+      }
+    }
     button.onmousedown = function() {
-      button.style.backgroundColor = 'gray';
+      buttonHeld = button;
+      button.classList.add('button-onmousedown');
     }
     button.onmouseup = function() {
-      button.style.backgroundColor = 'white';
+      /*
+      let buttonClass = button.classList;
+      
+      if (isHovering) {
+        buttonClass.add('button-hover');
+      } else {
+        buttonClass.remove('button-hover');
+      }
+      
+      buttonClass.remove('button-onmousedown');
+      */
+    }
+  });
+
+  let allTags = document.querySelectorAll('*');
+  allTags.forEach(tag => {
+    tag.onmouseup = function() {
+      buttonHeld.classList.remove('button-onmousedown', 'button-hover');
     }
   });
 }
