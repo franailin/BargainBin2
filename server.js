@@ -1,8 +1,14 @@
 const express = require('express')
+const fs = require('fs')
 const app = express()
+const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
+const url = 'mongodb://127.0.0.1:27017';
 
 app.get('/', function(req, res) {
-    res.sendFile(__dirname + 'templates/home.html')
+    fs.readFile("G:/Frank/Website Project/templates/record.html", 'utf8', function(err, data){
+        
+    })
 })
 
 var server = app.listen(8081, function(){
