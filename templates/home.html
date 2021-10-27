@@ -19,6 +19,8 @@ nav {
   left: 0px;
   width: 300px;
   height: 100%;
+
+  float: left;
 }
 
 nav * {
@@ -104,9 +106,8 @@ nav button:active {
 }
 
 #main {
-  position: absolute;
-  top: 0px;
-  left: 300px; /* I want this to be the right end of nav, so should not be hard-coded number */
+  float: right;
+  width: max-content; /* does not work as expected */
 }
 
 </style>
@@ -199,8 +200,13 @@ function styleNavButtons() {
   <hr>
 </nav>
 
+<!-- 
+  the contents like the stories should be shown on the right of the navigation column
+  but I don't know how.
+  So far, the h1 thing is still on the left and covered by the navigation column
+-->
 <div id='main'>
-  <h1 id='notify'>AHAHA</h1>
+  <h1>AHAHA</h1>
 </div>
 
 </body>
