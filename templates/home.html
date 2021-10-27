@@ -8,6 +8,8 @@ margin vs. padding: https://blog.hubspot.com/website/css-margin-vs-padding
 css positions
 css display: https://www.w3schools.com/cssref/pr_class_display.asp
 css transitions
+https://www.w3schools.com/howto/howto_css_two_columns.asp
+css float and clear
 */
 
 nav {
@@ -129,6 +131,7 @@ function styleNavButtons() {
         // just take note of this event
         // but otherwise do nothing
         mouseOnButtonHeld = true;
+        return;
       }
 
       let buttonClass = button.classList;    
@@ -139,6 +142,7 @@ function styleNavButtons() {
     button.onmouseleave = function() {
       if (button == buttonHeld) {
         mouseOnButtonHeld = false;
+        return;
       }
       
       let buttonClass = button.classList;      
