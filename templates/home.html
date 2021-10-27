@@ -82,6 +82,7 @@ nav button {
   cursor: pointer;
 }
 
+/*
 nav button:hover {
   background-color: white;
   color: black;
@@ -90,6 +91,7 @@ nav button:hover {
 nav button:active {
   background-color: gray;
 }
+*/
 
 .button-hover {
   background-color: white;
@@ -98,69 +100,70 @@ nav button:active {
 
 .button-onmousedown {
   background-color: gray;
+  color: black;
 }
 
+#main {
+  position: absolute;
+  top: 0px;
+  left: 300px; /* I want this to be the right end of nav, so should not be hard-coded number */
+}
 
 </style>
 <script>
 window.onload = function() {
-  //styleNavButtons();
+  styleNavButtons();
 }
 
 // change how nav buttons look when hovering, mousedown, ... on them
 // still not perfect. Need fix
 function styleNavButtons() {
   let navBtns = document.querySelectorAll('nav button');
-  let buttonHeld;
+  let buttonHeld = null;
+  let mouseOnButtonHeld = false;
   navBtns.forEach(button => {
-    let isHovering = false;
-    let onOneButton = false;
 
-    button.onmouseover = function() {
-      isHovering = true;
-      onOneButton = true;
-      let buttonClass = button.classList;
-      if (!buttonClass.contains('button-onmousedown')) {
-        buttonClass.add('button-hover');
+    button.onmouseenter = function() {
+      if (button == buttonHeld) {
+        // just take note of this event
+        // but otherwise do nothing
+        mouseOnButtonHeld = true;
       }
+
+      let buttonClass = button.classList;    
+      buttonClass.add('button-hover');
     }
-    button.onmouseout = function() {
-      isHovering = false;
-      onOneButton = false;
-      let buttonClass = button.classList;
-      if (!buttonClass.contains('button-onmousedown')) {
-        buttonClass.remove('button-hover');
+
+    // different from onmouseout
+    button.onmouseleave = function() {
+      if (button == buttonHeld) {
+        mouseOnButtonHeld = false;
       }
+      
+      let buttonClass = button.classList;      
+      buttonClass.remove('button-hover');   
     }
     button.onmousedown = function() {
       buttonHeld = button;
-      button.classList.add('button-onmousedown');
-    }
-    button.onmouseup = function() {
-      /*
-      let buttonClass = button.classList;
-      
-      if (isHovering) {
-        buttonClass.add('button-hover');
+      button.classList.replace('button-hover', 'button-onmousedown');
+    }   
+
+  });
+
+  // release the held button when onmouseup, regardless of
+  // where your cursor is
+  document.onmouseup = function() {
+    if (buttonHeld) { // if buttonHeld really refers to a button      
+      let buttonClass = buttonHeld.classList;
+      if (mouseOnButtonHeld) {
+        buttonClass.replace('button-onmousedown', 'button-hover');
       } else {
-        buttonClass.remove('button-hover');
-      }
-      
-      buttonClass.remove('button-onmousedown');
-      */
+        buttonClass.remove('button-onmousedown');
+      }      
+      buttonHeld = null;
     }
-
-    button.onclick = function() {
-      window.location.href = "https://www.google.com";
-    }
-  });
-
-  let allTags = document.querySelectorAll('*');
-  allTags.forEach(tag => {
-    tag.onmouseup = function() {
-      buttonHeld.classList.remove('button-onmousedown', 'button-hover');
-    }
-  });
+  }
+  
 }
 </script>
 <title>HOME</title>
@@ -195,5 +198,10 @@ function styleNavButtons() {
   </section>
   <hr>
 </nav>
+
+<div id='main'>
+  <h1 id='notify'>AHAHA</h1>
+</div>
+
 </body>
 </html>
