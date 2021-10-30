@@ -7,6 +7,9 @@ const ObjectID = require('mongodb').ObjectID;
 const dbUrl = 'mongodb://127.0.0.1:27017';
 const db_name = "BargainBin"
 const db = new MongoClient(dbUrl);
+const dbStories = db.db(db_name).collection('stories');
+const dbCollections = db.db(db_name).collection('collections');
+const dbAuthors = db.db(db_name).collection('authors');
 
 /*
 testing login data fetching in BargainBin database
@@ -21,32 +24,41 @@ json:
 }
 */
 
+// runs the mongodb server `db`
+// todo: make db stay connected.
+/*
 async function run() {
-    try {
-      // Connect the client to the server
-      await db.connect();      
-      let dbo = db.db(db_name);
-
-      let donaldTrump = {
-        name: {
-            first: 'Donald',
-            last: 'Trump'
-        },
-        password: 'makeAmericaGr8Again'
-      } 
-
-      await dbo.collection('authors').insertOne(donaldTrump).then(() => {
-        console.log('1 document inserted');
-      })
+    try {      
+      await db.connect();
+      
 
     } finally {
       // Ensures that the client will close when you finish/error
       await db.close();
     }
 }
-//run().catch(console.dir);
+run().catch(console.dir);
+*/
+
+async function addAuthor(authorJSON) {
+  try {
+    await db.connect();
 
 
+  } finally {
+    await db.close();
+  }
+
+  // cannot allow repeated username
+  let query = {'user': authorJSON.user}
+  let repeatedUsername = await dbAuthors.findOne(query) // returns a document with repeated user or null
+  if (repeatedUsername != null) {
+    console.log('username repeated');
+    return null;
+  }
+
+  return dbAuthors.insertOne(authorJSON); // this is a Promise
+}
 
 app.get('/', (req, res) => {
   // serve login_form.html
@@ -103,8 +115,8 @@ app.post('/create_account', (req, res) => {
   });
   req.on('end', () => {
     let newAuthor = JSON.parse(body);
-    console.log(JSON.stringify(newAuthor))
     // mongodb handles json here
+    addAuthor(newAuthor);
   });
 })
 
