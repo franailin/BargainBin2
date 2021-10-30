@@ -10,6 +10,7 @@ const db = new MongoClient(dbUrl);
 const dbStories = db.db(db_name).collection('stories');
 const dbCollections = db.db(db_name).collection('collections');
 const dbAuthors = db.db(db_name).collection('authors');
+const dbIsConnected = false;
 
 /*
 testing login data fetching in BargainBin database
@@ -24,21 +25,10 @@ json:
 }
 */
 
-// runs the mongodb server `db`
-// todo: make db stay connected.
-/*
-async function run() {
-    try {      
-      await db.connect();
-      
+db.connect().then(() => {
+  dbIsConnected = true;
+})
 
-    } finally {
-      // Ensures that the client will close when you finish/error
-      await db.close();
-    }
-}
-run().catch(console.dir);
-*/
 
 // next: want to move connect and close out of this function
 // connecting to db should only be done once
@@ -59,6 +49,22 @@ async function addAuthor(authorJSON) {
   } finally {
     await db.close();
   }  
+}
+
+async function addAuthor1(authorJSON) {
+  if (!dbIsConnected) {
+    console.log('db not connected');
+    return new Promise();
+  }
+
+  let query = {'user': authorJSON.user}
+  let repeatedUsername = await dbAuthors.findOne(query) // returns a document with repeated user or null
+  if (repeatedUsername != null) {
+    console.log('username repeated');    
+    return new Promise();
+  }
+
+  await dbAuthors.insertOne(authorJSON);
 }
 
 app.get('/', (req, res) => {
@@ -117,7 +123,7 @@ app.post('/create_account', (req, res) => {
   req.on('end', () => {
     let newAuthor = JSON.parse(body);
     // mongodb handles json here
-    addAuthor(newAuthor);
+    addAuthor1(newAuthor);
   });
 })
 
