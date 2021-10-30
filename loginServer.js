@@ -24,7 +24,7 @@ async function run() {
     try {
       // Connect the client to the server
       await db.connect();      
-      let dbo = db.db(db_name);  
+      let dbo = db.db(db_name);
 
       let donaldTrump = {
         name: {
@@ -76,34 +76,18 @@ app.get('/', (req, res) => {
 // in the front end, if you only mention <form action='/login'> and
 // nothing else, then no data will be sent and the body will just
 // be ''
-//
+// 
+// that is because without a body-parser, req.body is always undefined.
+// https://stackoverflow.com/questions/27237744/node-js-express-html-form-req-body-is-undefined
 //
 
 app.post('/login', (req, res) => {
-
-  let body = '';
-
-  // Get the data as utf8 strings.
-  // If an encoding is not set, Buffer objects will be received.
-  req.setEncoding('utf8');
-
-  // Readable streams emit 'data' events once a listener is added.
-  req.on('data', (chunk) => {
-    body += chunk;
-  });
-
-  // The 'end' event indicates that the entire body has been received.
-  req.on('end', () => {
-    try {
-      console.log(`post body: ${body}`);
-
-      // send response
-      return res.end('received your login info');
-    } catch (er) {
-      // uh oh! bad json!
-      console.log(`error: ${er}`)
-    }
-  });
+  //let name = req.body.name;
+  //let password = req.body.password;
+  //console.log(`name: ${name}`);
+  //console.log(`password: ${password}`);
+  console.log(`body: ${req.body}`);
+  return res.end('received login info');
 })
 
 app.listen(port, () => {
