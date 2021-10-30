@@ -15,7 +15,8 @@ json:
     name: {
         first: 'Donald',
         last: 'Trump'
-    }
+    },
+    user: 'DT',
     password: 'makeAmericaGr8Again'
 }
 */
@@ -88,6 +89,23 @@ app.post('/login', (req, res) => {
   //console.log(`password: ${password}`);
   console.log(`body: ${req.body}`);
   return res.end('received login info');
+})
+
+app.post('/create_account', (req, res) => {
+  // get json string from req
+  let body = '';
+  req.setEncoding('utf8'); // Get the data as utf8 strings
+  req.on('error', err => {
+    console.error(err);
+  });
+  req.on('data', chunk => {
+    body += chunk;
+  });
+  req.on('end', () => {
+    let newAuthor = JSON.parse(body);
+    console.log(JSON.stringify(newAuthor))
+    // mongodb handles json here
+  });
 })
 
 app.listen(port, () => {
