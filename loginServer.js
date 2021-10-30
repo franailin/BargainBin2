@@ -40,24 +40,25 @@ async function run() {
 run().catch(console.dir);
 */
 
+// next: want to move connect and close out of this function
+// connecting to db should only be done once
 async function addAuthor(authorJSON) {
   try {
     await db.connect();
 
+    let query = {'user': authorJSON.user}
+    let repeatedUsername = await dbAuthors.findOne(query) // returns a document with repeated user or null
+    if (repeatedUsername != null) {
+      console.log('username repeated');
+      await db.close();
+      return null;
+    }
 
+    await dbAuthors.insertOne(authorJSON);
+  
   } finally {
     await db.close();
-  }
-
-  // cannot allow repeated username
-  let query = {'user': authorJSON.user}
-  let repeatedUsername = await dbAuthors.findOne(query) // returns a document with repeated user or null
-  if (repeatedUsername != null) {
-    console.log('username repeated');
-    return null;
-  }
-
-  return dbAuthors.insertOne(authorJSON); // this is a Promise
+  }  
 }
 
 app.get('/', (req, res) => {
