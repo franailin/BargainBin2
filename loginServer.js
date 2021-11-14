@@ -62,6 +62,44 @@ async function addAuthor(authorJSON) {
     // await db.close();
   }  
 }
+
+function navbarTopFourCollections(template) {
+  
+  return template;
+}
+
+function navbarTopTenStories(template) {
+  // pseudocode - sort stories database by views and take the top ten and link it.
+  dbStories.find().sort({views:-1}).toArray(function(err, result) {
+    if (err) throw err;
+    var tag = "stories_temp";
+    var list = ""
+    for (var i = 0; i < result.length; i++) {
+      if (i == 10){
+        break;
+      }
+      var story = result[i];
+      var name = story.name;
+      var id = story._id.toString();
+      list += "<li><a href=https://localhost/8080/story/read?id="+id+">"+name+"</a></li>";
+    }
+    template = template.replaceAll(tag, list);
+  });
+  return template;
+}
+
+function getRandomStory(template) {
+  return template;
+}
+
+function generateHome(template) {
+  try {
+    template = getRandomStory(navbarTopTenStories(navbarTopFourCollections(template)));
+  } finally {
+
+  }
+}
+
 /*
 async function addAuthor1(authorJSON) {
   if (!dbIsConnected) {
@@ -99,9 +137,8 @@ app.get('/', (req, res) => {
       res.writeHead(404, {'Content-Type': 'text/html'});
       return res.end("404 Not Found");
     }
- 
     res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write(data);
+    res.write(generateHome(data));
     return res.end();
   })
 })
