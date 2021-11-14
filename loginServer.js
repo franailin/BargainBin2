@@ -6,11 +6,18 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 const dbUrl = 'mongodb://127.0.0.1:27017';
 const db_name = "BargainBin"
-const db = new MongoClient(dbUrl);
-const dbStories = db.db(db_name).collection('stories');
-const dbCollections = db.db(db_name).collection('collections');
-const dbAuthors = db.db(db_name).collection('authors');
-const dbIsConnected = false;
+// const db = new MongoClient(dbUrl);
+let db;
+let dbStories;
+let dbCollections;
+let dbAuthors;
+let dbIsConnected = false;
+
+/* Read later:
+https://stackoverflow.com/questions/18650890/keeping-open-a-mongodb-database-connection
+
+
+*/
 
 /*
 testing login data fetching in BargainBin database
@@ -25,8 +32,12 @@ json:
 }
 */
 
-db.connect().then(() => {
-  dbIsConnected = true;
+MongoClient.connect(dbUrl).then(client => {
+  db = client.db(db_name)
+  dbIsConnected = true
+  dbStories = db.collection('stories');
+  dbCollections = db.collection('collections');
+  dbAuthors = db.collection('authors');
 })
 
 
@@ -34,23 +45,24 @@ db.connect().then(() => {
 // connecting to db should only be done once
 async function addAuthor(authorJSON) {
   try {
-    await db.connect();
+    // await db.connect();
 
     let query = {'user': authorJSON.user}
+    console.log(dbAuthors)
     let repeatedUsername = await dbAuthors.findOne(query) // returns a document with repeated user or null
     if (repeatedUsername != null) {
       console.log('username repeated');
-      await db.close();
+      // await db.close();
       return null;
     }
 
     await dbAuthors.insertOne(authorJSON);
   
   } finally {
-    await db.close();
+    // await db.close();
   }  
 }
-
+/*
 async function addAuthor1(authorJSON) {
   if (!dbIsConnected) {
     console.log('db not connected');
@@ -66,6 +78,7 @@ async function addAuthor1(authorJSON) {
 
   await dbAuthors.insertOne(authorJSON);
 }
+*/
 
 app.get('/', (req, res) => {
   // serve login_form.html
@@ -122,8 +135,9 @@ app.post('/create_account', (req, res) => {
   });
   req.on('end', () => {
     let newAuthor = JSON.parse(body);
+    console.log(JSON.stringify(newAuthor))
     // mongodb handles json here
-    addAuthor1(newAuthor);
+    addAuthor(newAuthor);
   });
 })
 
