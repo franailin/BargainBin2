@@ -1,184 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-/* references:
-https://www.w3schools.com/css/css_navbar_vertical.asp
-margin vs. padding: https://blog.hubspot.com/website/css-margin-vs-padding
-css positions
-css display: https://www.w3schools.com/cssref/pr_class_display.asp
-css transitions
-https://www.w3schools.com/howto/howto_css_two_columns.asp
-css float and clear
-*/
-
-html {
-  width: 100%;
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: row;
-}
-
-nav {
-  background: #352828;
-  color: white;
-
-  width: 300px;
-}
-
-nav * {
-  font-family: Arial;
-
-  /* overwrite browser default */
-  margin: 0px;
-  padding: 0px;
-}
-
-#nav-empty-space {
-  height: 20px;
-}
-
-nav section {  
-  /* background: #7d2828; */
-  
-  padding-left: 10px;
-}
-
-nav ul {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-nav li {
-  list-style-type: none; /* remove bullet point */
-  display: block;
-}
-
-nav li:hover {
-  background: white;
-  color: black;
-}
-
-nav h2 {
-
-}
-
-nav hr {
-  margin: 10px;
-
-  border: none; /* remove browser's style settings */
-  height: 2px;
-  background: black;
-}
-
-nav button {
-  display: inline-block; /* block, but does not start new line */
-  background-color: black;
-  color: white;
-  border-radius: 4px; /* the round edges */
-  border: none;
-  text-align: center;
-  
-  margin: 2px;
-  padding: 5px;
-  
-  /*transition: all .3s;*/
-
-  cursor: pointer;
-}
-
-/*
-nav button:hover {
-  background-color: white;
-  color: black;
-}
-
-nav button:active {
-  background-color: gray;
-}
-*/
-
-.button-hover {
-  background-color: white;
-  color: black;
-}
-
-.button-onmousedown {
-  background-color: gray;
-  color: black;
-}
-
-</style>
+  <link rel="stylesheet" href="../stylesheets/home.css">
+  <script src="../frontend_js/home.js"></script>
 <script>
-window.onload = function() {
-  styleNavButtons();
-}
-
-// change how nav buttons look when hovering, mousedown, ... on them
-function styleNavButtons() {
-  let navBtns = document.querySelectorAll('nav button');
-  let buttonHeld = null;
-  let mouseOnButtonHeld = false;
-  navBtns.forEach(button => {
-
-    button.onmouseenter = function() {
-      if (button == buttonHeld) {
-        // just take note of this event
-        // but otherwise do nothing
-        mouseOnButtonHeld = true;
-        return;
-      }
-
-      let buttonClass = button.classList;    
-      buttonClass.add('button-hover');
-    }
-
-    // different from onmouseout
-    button.onmouseleave = function() {
-      if (button == buttonHeld) {
-        mouseOnButtonHeld = false;
-        return;
-      }
-      
-      let buttonClass = button.classList;      
-      buttonClass.remove('button-hover');   
-    }
-    button.onmousedown = function() {
-      buttonHeld = button;
-      button.classList.replace('button-hover', 'button-onmousedown');
-    }   
-
-  });
-
-  // release the held button when onmouseup, regardless of
-  // where your cursor is
-  document.onmouseup = function() {
-    if (buttonHeld) { // if buttonHeld really refers to a button      
-      let buttonClass = buttonHeld.classList;
-      if (mouseOnButtonHeld) {
-        buttonClass.replace('button-onmousedown', 'button-hover');
-      } else {
-        buttonClass.remove('button-onmousedown');
-      }      
-      buttonHeld = null;
-    }
-  }
-  
-}
 </script>
 <title>HOME</title>
 </head>
 <body>
 <nav>
-  <div id ="home-button"><button>Home</button></div>
+  <div id ="home-button"><button>Home</button><button>Login</button></div>
   <div id="nav-empty-space"></div>
   <section>
     <h2>Collections</h2>
@@ -216,3 +47,5 @@ function styleNavButtons() {
 
 </body>
 </html>
+
+

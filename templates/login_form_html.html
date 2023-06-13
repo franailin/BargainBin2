@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+</style>
+<script>
+</script>
+<title>Login</title>
+</head>
+<body>
+<h1>Login:</h1>
+<form id='login'>
+  <label for='user'>Username:</label><br>
+  <input type='text' id='user'><br>
+  <label for='password'>Password:</label><br>
+  <input type='text' id='password'>
+  <input type='submit'>
+</form>
+<hr>
+<h1>Create Account:</h1>
+<form id='create_account'>
+  <label for='new_first_name'>First Name:</label><br>
+  <input type='text' id='new_first_name'><br>
+  <label for='new_last_name'>Last Name:</label><br>
+  <input type='text' id='new_last_name'><br>
+  <label for='new_user'>Username:</label><br>
+  <input type='text' id='new_user'><br>
+  <label for='new_password'>Password:</label><br>
+  <input type='text' id='new_password'>
+  <input type='submit'>
+</form>
+</body>
+
+<script>
+
+  // returns a STRING of JSON
+  function makeNewAuthorJSON(firstName, lastName, user, password) {
+    j = {
+      'name': {
+        'first': firstName,
+        'last': lastName
+      },
+      'user': user,
+      'password': password
+    };
+    return JSON.stringify(j);
+  }
+  
+  let createAccount = document.querySelector("#create_account");
+  createAccount.onsubmit = function () {
+    let first = document.querySelector("#new_first_name").value;
+    let last = document.querySelector("#new_last_name").value;
+    let user = document.querySelector("#new_user").value;
+    let pwd = document.querySelector("#new_password").value;
+  
+    // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+    fetch('/create_account', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: makeNewAuthorJSON(first, last, user, pwd)
+    });
+    
+    // prevent webpage from refreshing
+    return false;
+  }
+  
+</script>  
+</html>
