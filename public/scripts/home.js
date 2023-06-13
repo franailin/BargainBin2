@@ -1,4 +1,4 @@
-  // change how nav buttons look when hovering, mousedown, ... on them
+// change how nav buttons look when hovering, mousedown, ... on them
 function styleNavButtons() {
     let navBtns = document.querySelectorAll('nav button');
     let buttonHeld = null;
@@ -51,25 +51,22 @@ function styleNavButtons() {
 
 window.onload = function() {
     styleNavButtons();
+
+    /* login */
+    document.getElementById('login').onclick = function() {
+        fetch('/login')
+            .then(function(response) {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('Error: ' + response.status);
+                }
+            })
+            .then(function(htmlContent) {                
+                document.getElementById('main').innerHTML = htmlContent;
+            })
+            .catch(function(error) {
+                console.log('Fetch error:', error);
+            });
+    }
 }
-
-/* login */
-document.getElementById('login').onclick = function() {
-    fetch('/login')
-        .then(function(response) {
-            if (response.ok) {
-                return response.text();
-            } else {
-                throw new Error('Error: ' + response.status);
-            }
-        })
-        .then(function(htmlContent) {                
-            document.getElementById('main').innerHTML = htmlContent;
-        })
-        .catch(function(error) {
-            console.log('Fetch error:', error);
-        });
-}
-
-
-
