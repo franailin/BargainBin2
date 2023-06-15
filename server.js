@@ -19,9 +19,13 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    const dynamicContent = '<p>Login Placeholder</p>';
-    console.log('login button clicked');
-    res.send(dynamicContent);
+    fs.readFile(path.join(__dirname, 'templates', 'login_form_html.html'), function(err, data) {
+        console.log('data read: ' + data);
+        res.send(data);
+    });
+    //const dynamicContent = '<p>Login Placeholder</p>';
+
+    //res.send(dynamicContent);
 })
   
 app.post('/create_account', (req, res) => {

@@ -53,7 +53,7 @@ window.onload = function() {
     styleNavButtons();
 
     /* login */
-    document.getElementById('login').onclick = function() {
+    document.getElementById('loginButton').onclick = function() {
         fetch('/login')
             .then(function(response) {
                 if (response.ok) {
@@ -64,9 +64,18 @@ window.onload = function() {
             })
             .then(function(htmlContent) {                
                 document.getElementById('main').innerHTML = htmlContent;
+
+                // add script
+                let sc = document.createElement("script");
+                sc.setAttribute("src", "scripts/login_form_html.js");
+                sc.setAttribute("type", "text/javascript");
+                document.head.appendChild(sc);
             })
             .catch(function(error) {
                 console.log('Fetch error:', error);
             });
     }
 }
+
+
+
