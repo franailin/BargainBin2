@@ -37,6 +37,8 @@ app.post('/create_account', (req, res) => {
     });
     req.on('end', () => {
       let newAuthor = JSON.parse(body);
+      console.log('login info received:');
+      console.log(newAuthor);
       // mongodb handles json here
       //addAuthor1(newAuthor);
     });
