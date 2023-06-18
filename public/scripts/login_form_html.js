@@ -4,7 +4,7 @@ loginHeader.onmouseover = function() {
 }
 
 
-// the following part submits info of creating an account to server.js
+// The following part submits info of creating an account to server.js when the form is submitted
 // not working yet. Need to fix
 
 
