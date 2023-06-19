@@ -1,31 +1,31 @@
 const express = require('express')
 const fs = require('fs')
 const app = express()
-const MongoClient = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectID;
-const url = 'mongodb://127.0.0.1:27017';
-db_name = "BargainBin"
+const port = 8080;
+const mysql2 = require('mysql2');
+const path = require('path');
+
+const db = mysql2.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'BargainBin2'
+});
+
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-    fs.readFile('templates/home.html', (err, data) => {
-      if (err) {
-        res.writeHead(404, {'Content-Type' : 'text/html'});
-        return res.end("404 Not Found");
-      }
-      
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(data); // Once we start populating our database with fake data, we can start replacing the "temps" in home.html
-      return res.end()
-    })
-})
+  res.sendFile(path.join(__dirname, 'public', 'home.html'));
+});
 
-app.post('/login', (req, res) => {
-    //let name = req.body.name;
-    //let password = req.body.password;
-    //console.log(`name: ${name}`);
-    //console.log(`password: ${password}`);
-    console.log(`body: ${req.body}`);
-    return res.end('received login info');
+app.get('/login', (req, res) => {
+    fs.readFile(path.join(__dirname, 'templates', 'login_form_html.html'), function(err, data) {
+        console.log('data read: ' + data);
+        res.send(data);
+    });
+    //const dynamicContent = '<p>Login Placeholder</p>';
+
+    //res.send(dynamicContent);
 })
   
 app.post('/create_account', (req, res) => {
@@ -37,8 +37,10 @@ app.post('/create_account', (req, res) => {
     });
     req.on('end', () => {
       let newAuthor = JSON.parse(body);
+      console.log('login info received:');
+      console.log(newAuthor);
       // mongodb handles json here
-      addAuthor1(newAuthor);
+      //addAuthor1(newAuthor);
     });
 })
 
@@ -48,4 +50,3 @@ var server = app.listen(8080, function(){
     console.log("Example app listening at http://%s:%s", host, port)
 })
 
-console.log('Server has started');
