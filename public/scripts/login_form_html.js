@@ -4,10 +4,6 @@ loginHeader.onmouseover = function() {
 }
 
 
-// The following part submits info of creating an account to server.js when the form is submitted
-// not working yet. Need to fix
-
-
 // returns a STRING of JSON
 function makeNewAuthorJSON(firstName, lastName, user, password) {
     j = {
@@ -27,6 +23,8 @@ createAccount.onsubmit = function () {
     let last = document.querySelector("#new_last_name").value;
     let user = document.querySelector("#new_user").value;
     let pwd = document.querySelector("#new_password").value;
+
+    console.log('submit btn clicked');
 
     // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
     fetch('/create_account', {

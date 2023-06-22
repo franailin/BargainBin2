@@ -20,7 +20,6 @@ app.get('/', (req, res) => {
 
 app.get('/login', (req, res) => {
     fs.readFile(path.join(__dirname, 'templates', 'login_form_html.html'), function(err, data) {
-        console.log('data read: ' + data);
         res.send(data);
     });
     //const dynamicContent = '<p>Login Placeholder</p>';
@@ -29,19 +28,42 @@ app.get('/login', (req, res) => {
 })
   
 app.post('/create_account', (req, res) => {
-    // get json string from req
-    let body = '';
-    req.setEncoding('utf8'); // Get the data as utf8 strings
-    req.on('error', err => {
-        body += chunk;
+  // get json string from req
+  let body = '';
+  req.setEncoding('utf8'); // Get the data as utf8 strings
+  req.on('error', err => {
+    console.error(err);
+  });
+  req.on('data', chunk => {
+    body += chunk;
+  });
+  req.on('end', () => {
+    let newAuthor = JSON.parse(body);
+    let firstName = newAuthor.name.first;
+    let lastName = newAuthor.name.last;
+    let userName = newAuthor.user;
+    let password = newAuthor.password;
+
+    console.log('new user: ');
+    console.log(newAuthor);
+/*    
+    db.query("SELECT * FROM author WHERE first_name = ? AND last_name = ?", [firstName, lastName], (error, results) => {
+      if (error) {
+        res.status(500).json({ message: "An error occurred while processing your request." });
+      } else {
+        if (results.length > 0) {
+          res.status(401).json({ message: "user already existed." });
+        } else {
+          db.query('INSERT INTO author VALUES(?, ?, ?, ?, ?);', [1111, firstName, lastName, userName, password]);
+          // how do you insert primary key???
+          // https://stackoverflow.com/questions/59964895/node-js-doesnt-insert-primary-key-in-mysql-table
+        }
+      }
     });
-    req.on('end', () => {
-      let newAuthor = JSON.parse(body);
-      console.log('login info received:');
-      console.log(newAuthor);
-      // mongodb handles json here
-      //addAuthor1(newAuthor);
-    });
+*/
+
+
+  });
 })
 
 var server = app.listen(8080, function(){
