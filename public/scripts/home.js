@@ -65,6 +65,13 @@ window.onload = function() {
             .then(function(htmlContent) {                
                 document.getElementById('main').innerHTML = htmlContent;
 
+                // add style
+                // <link rel="stylesheet" href="styles/login_form.css">
+                let sty = document.createElement("link");
+                sty.setAttribute("rel", "stylesheet");
+                sty.setAttribute("href", "styles/login_form.css");
+                document.head.appendChild(sty);
+
                 // add script
                 let sc = document.createElement("script");
                 sc.setAttribute("src", "scripts/login_form_html.js");
