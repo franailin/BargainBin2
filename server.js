@@ -46,7 +46,7 @@ app.post('/create_account', (req, res) => {
 
     console.log('new user: ');
     console.log(newAuthor);
-/*    
+  
     db.query("SELECT * FROM author WHERE first_name = ? AND last_name = ?", [firstName, lastName], (error, results) => {
       if (error) {
         res.status(500).json({ message: "An error occurred while processing your request." });
@@ -54,13 +54,14 @@ app.post('/create_account', (req, res) => {
         if (results.length > 0) {
           res.status(401).json({ message: "user already existed." });
         } else {
-          db.query('INSERT INTO author VALUES(?, ?, ?, ?, ?);', [1111, firstName, lastName, userName, password]);
-          // how do you insert primary key???
+          insertQuery = 'INSERT INTO author (first_name, last_name, username, pwd) VALUES(?, ?, ?, ?);';
+          db.query(insertQuery, [firstName, lastName, userName, password]);
+          // how do you insert primary key:
           // https://stackoverflow.com/questions/59964895/node-js-doesnt-insert-primary-key-in-mysql-table
         }
       }
     });
-*/
+  
 
 
   });
