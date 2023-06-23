@@ -1,8 +1,3 @@
-loginHeader = document.getElementById('loginHeader');
-loginHeader.onmouseover = function() {
-    loginHeader.innerHTML += "<br /><p>That tickles</p>";
-}
-
 
 // returns a STRING of JSON
 function makeNewAuthorJSON(firstName, lastName, user, password) {

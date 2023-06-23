@@ -56,8 +56,9 @@ app.post('/create_account', (req, res) => {
         } else {
           insertQuery = 'INSERT INTO author (first_name, last_name, username, pwd) VALUES(?, ?, ?, ?);';
           db.query(insertQuery, [firstName, lastName, userName, password]);
-          // how do you insert primary key:
+          // how do you deal with primary key:
           // https://stackoverflow.com/questions/59964895/node-js-doesnt-insert-primary-key-in-mysql-table
+          // https://stackoverflow.com/questions/1485668/how-to-set-initial-value-and-auto-increment-in-mysql
         }
       }
     });
