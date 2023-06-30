@@ -115,7 +115,46 @@ nav button:active {
 
 #main {
   /*this will center things.*/
-  /* I still don't quite understand how flex works... */
+  /* I still don't quite understand how flex works... 
+     I asked chatGPT:
+     Please create a css style sheet for my webpage design. 
+     My webpage will have a navigation block on the left, taking 30 percent of the screen. 
+     The rest on the right is the block where the main content will be displayed. 
+     The content inside this block has to be centered.
+
+     Response:
+    
+body {
+  display: flex;
+  flex-direction: row;
+}
+
+
+.navigation {
+  width: 30%;
+  background-color: #f1f1f1; 
+}
+
+
+.content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+
+
+
+
+
+
+
+  
+  
+  */
+
 
   flex-grow: 1;
   display: flex;
