@@ -19,14 +19,14 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    fs.readFile(path.join(__dirname, 'templates', 'login_form_html.html'), function(err, data) {
-        res.send(data);
-    });
-    //const dynamicContent = '<p>Login Placeholder</p>';
+  fs.readFile(path.join(__dirname, 'templates', 'login_form_html.html'), function (err, data) {
+    res.send(data);
+  });
+  //const dynamicContent = '<p>Login Placeholder</p>';
 
-    //res.send(dynamicContent);
+  //res.send(dynamicContent);
 })
-  
+
 app.post('/create_account', (req, res) => {
   // get json string from req
   let body = '';
@@ -46,7 +46,7 @@ app.post('/create_account', (req, res) => {
 
     console.log('new user: ');
     console.log(newAuthor);
-  
+
     db.query("SELECT * FROM author WHERE first_name = ? AND last_name = ?", [firstName, lastName], (error, results) => {
       if (error) {
         res.status(500).json({ message: "An error occurred while processing your request." });
@@ -62,15 +62,17 @@ app.post('/create_account', (req, res) => {
         }
       }
     });
-  
+
 
 
   });
 })
 
-var server = app.listen(8080, function(){
-    var host = server.address().address
-    var port = server.address().port
-    console.log("Example app listening at http://%s:%s", host, port)
+var server = app.listen(8080, function () {
+  var host = server.address().address
+  var port = server.address().port
+  console.log("Example app listening at http://%s:%s", host, port)
 })
+
+
 
